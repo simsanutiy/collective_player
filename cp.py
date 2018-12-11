@@ -1,8 +1,7 @@
-#import msvcrt
+import msvcrt
 import youtube_dl
 import subprocess
 import os
-#import time
 
 order = 0
 play_order = 1
@@ -33,11 +32,9 @@ while not done:
         if letter == '\r':
             order += 1
             queue[order] = query
-            #print(queue)
             print('\r')
             download_video(order, query)
             query = ''
-            #print('\r')
             continue
         if button == b'\x08':
             query = query[:-1]
@@ -61,15 +58,4 @@ while not done:
             
     if not playing and not order == 0:
         music = subprocess.Popen('ffplay {0}.tmp -autoexit -loglevel warning'.format(play_order))
-        #print(music)
-        #time.sleep(2)
         playing = True
-
-
-#queue['1'] = query
-
-#download_video(order, queue[str(order)])
-#print('1')
-#subprocess.Popen('ffplay {0}.tmp -autoexit -loglevel warning'.format(order))
-
-#os.system('ffplay {0}.tmp -autoexit'.format(order))
