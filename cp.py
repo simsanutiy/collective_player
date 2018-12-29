@@ -11,6 +11,7 @@ play_order = 1  #Номер текущего трека
 done = None     #Условие выхода из цикла
 query = ''      #Текст запроса
 playing = False #Играет ли музыка? А? А? Хуй на!
+titles = {}
 
 """Загрузка видео"""
 def download_video(order, query):
@@ -19,10 +20,17 @@ def download_video(order, query):
         'format': 'bestaudio/best',#Скачивает лучшую звуковую дорожку или видео.
         'audio_format': 'mp3',#В формате mp3.
         'quiet': True,#Не пишет в консоль ничего.
-        'outtmpl': '{0}) {1}.tmp'.format(order, query),#Имя файла.
+        'outtmpl': '{0}.tmp'.format(order),#Имя файла.
+        #'forcetitle': True,
         }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:#И с этими опциями наперевес
-        ydl.download([query])#скачать видео.
+        info = ydl.extract_info(query, download=False)
+        try:
+            titles[order] = info['title']
+        except KeyError:
+            titles[order] = info['entries'][0]['title']
+        ydl.download([query])
+        print('\'{0}\' скачано'.format(titles[order]))
 
 """Главный цикл"""
 while not done:
@@ -55,6 +63,7 @@ while not done:
         poll = music.poll()#то стоит в этом убедиться,
         if poll != None:#ведь если уже не играет,
             remove('{0}.tmp'.format(play_order))#то и песня нам уже не нужна,
+            titles.pop(play_order)
             play_order += 1#мы просто включим следующую.
             if play_order > order:#А если следующей нет,
                 print('Конец плейлиста')#то мы прямо об этом заявим
@@ -65,6 +74,9 @@ while not done:
         music = Popen('ffplay {0}.tmp -autoexit -loglevel warning'\
                                  .format(play_order))#то включаем
         #какая там сейчас должна быть песня.
+        print('Плейлист:')
+        for title in titles: print(titles.get(title))
+        print('Сейчас играет:',titles[play_order])
         playing = True#И громко всем об этом заявим!
         
-    sleep(0.05)#И подождём немного, прежде чем повторять, чтоб не грузить комп.
+    sleep(0.04)#И подождём немного, прежде чем повторять, чтоб не грузить комп.
