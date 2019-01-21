@@ -18,10 +18,8 @@ def download_video(order, query):
     ydl_opts = {#Опции загрузчика таковы:
         'default_search': 'ytsearch1',#Первое видео из результатов поиска.
         'format': 'bestaudio/best',#Скачивает лучшую звуковую дорожку или видео.
-        'audio_format': 'mp3',#В формате mp3.
         'quiet': True,#Не пишет в консоль ничего.
         'outtmpl': '{0}.tmp'.format(order),#Имя файла.
-        #'forcetitle': True,
         }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:#И с этими опциями наперевес
         info = ydl.extract_info(query, download=True)
