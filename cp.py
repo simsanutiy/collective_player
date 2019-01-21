@@ -1,16 +1,16 @@
 """Грузим туеву хучу рандомных модулей"""
-import msvcrt               #Модуль для кнопок в командной строке
-import youtube_dl           #Модуль для качания видосиков с ютьюба
-from subprocess import Popen#Модуль для запуска плеера
-from os import remove       #Модуль для удаления отыгранных песен
-from time import sleep      #Модуль баиньки
+import msvcrt               #Модуль для кнопок в командной строке.
+import youtube_dl           #Модуль для качания видосиков с ютьюба.
+from subprocess import Popen#Модуль для запуска плеера.
+from os import remove       #Модуль для удаления отыгранных песен.
+from time import sleep      #Модуль для баиньки.
 
 """Некоторые переменные надо объявить заранее, до входа в цикл"""
-order = 0       #Номер последнего скачанного трека
-play_order = 1  #Номер текущего трека
-query = ''      #Текст запроса
+order = 0       #Номер последнего скачанного трека.
+play_order = 1  #Номер текущего трека.
+query = ''      #Текст запроса.
 playing = False #Играет ли музыка? А? А? Хуй на!
-titles = {}
+titles = {}     #А это плейлист.
 
 """Загрузка видео"""
 def download_video(order, query):
@@ -20,12 +20,12 @@ def download_video(order, query):
         'quiet': True,#Не пишет в консоль ничего.
         'outtmpl': '{0}.tmp'.format(order),#Имя файла.
         }
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:#И с этими опциями наперевес
-        info = ydl.extract_info(query, download=True)
-        try:
-            titles[order] = info['title']
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:#И с этими опциями наперевес мы
+        info = ydl.extract_info(query, download=True)#качаем видео и инфу о нём.
+        try:#Вытаскиваем из словаря информации название видео.
+            titles[order] = info['title']#Словарь бывает двух типов: для видео
         except KeyError:
-            titles[order] = info['entries'][0]['title']
+            titles[order] = info['entries'][0]['title']#И для плейлиста
         print('\'{0}\' скачано'.format(titles[order]))
 
 """Главный цикл"""
