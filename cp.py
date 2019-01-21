@@ -24,12 +24,11 @@ def download_video(order, query):
         #'forcetitle': True,
         }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:#И с этими опциями наперевес
-        info = ydl.extract_info(query, download=False)
+        info = ydl.extract_info(query, download=True)
         try:
             titles[order] = info['title']
         except KeyError:
             titles[order] = info['entries'][0]['title']
-        ydl.download([query])
         print('\'{0}\' скачано'.format(titles[order]))
 
 """Главный цикл"""
