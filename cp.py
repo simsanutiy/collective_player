@@ -8,7 +8,6 @@ from time import sleep      #Модуль баиньки
 """Некоторые переменные надо объявить заранее, до входа в цикл"""
 order = 0       #Номер последнего скачанного трека
 play_order = 1  #Номер текущего трека
-done = None     #Условие выхода из цикла
 query = ''      #Текст запроса
 playing = False #Играет ли музыка? А? А? Хуй на!
 titles = {}
@@ -30,7 +29,7 @@ def download_video(order, query):
         print('\'{0}\' скачано'.format(titles[order]))
 
 """Главный цикл"""
-while not done:
+while True:
     
     """Неблокирующий ввод с клавиатуры"""
     
