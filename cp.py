@@ -70,9 +70,9 @@ while True:
         music = Popen('ffplay {0}.tmp -autoexit -loglevel warning'\
                                  .format(play_order))#то включаем
         #какая там сейчас должна быть песня.
-        print('\nПлейлист:')
+        print('\nПлейлист:')#(Попутно следует вывести плейлист.)
         for title in titles: print(str(title)+')', titles.get(title))
-        print('\nСейчас играет:',titles[play_order])
-        playing = True#И громко всем об этом заявим!
+        print('\nСейчас играет:',titles[play_order])#(И текущий трек тоже)
+        playing = True#И громко всем заявим что есть ещё песни!
         
     sleep(0.01)#И подождём немного, прежде чем повторять, чтоб не грузить комп.
